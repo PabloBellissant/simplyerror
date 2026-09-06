@@ -8,17 +8,16 @@ Usage :
 - REGISTER_ERROR("format", ...) -> Register an error
 - REGISTER_USER_ERROR("format", ...) -> Register an error that the user can see, even if NDEGUG is defined.
 
+- CHECK_ERROR(expr, ...) -> Register an error if expr == 0, then return -1.
+- CHECK_USER_ERROR(expr, ...) -> Register an error that the user can see if expr == 0, then return -1.
+
 Example :
 ```c
 
 int init(const char *file_name)
 {
   int fd = open(file_name, O_RDONLY);
-  if (fd == -1)
-  {
-    REGISTER_ERROR("Failed to open input file %s", file_name);
-    return (-1);
-  }
+  CHECK_ERROR(fd == -1, "Failed to open input file %s", file_name);
   ...
   return (0);
 }
