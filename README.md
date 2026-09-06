@@ -2,7 +2,7 @@
 
 A simple C library, for cascade logging errors
 
-![alt text](https://github.com/PabloBellissant/simplyerror/assets/example.png "Error logging example")
+![alt text](https://github.com/PabloBellissant/simplyerror/blob/main/assets/example.png "Error logging example")
 
 Usage :
 - REGISTER_ERROR("format", ...) -> Register an error
