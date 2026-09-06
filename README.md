@@ -39,4 +39,4 @@ Will produce :
 ![example 2](https://github.com/PabloBellissant/simplyerror/blob/main/assets/example2.png "Error logging example 2")
 
 The library use the non-standard on_exit() function, to avoid any init/destroy function call from main. You only need to use REGISTER_ERROR.
-made by @PabloBellissant
+made by [@PabloBellissant](https://github.com/PabloBellissant)
