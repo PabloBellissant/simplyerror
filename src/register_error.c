@@ -26,4 +26,5 @@ void	register_error(const char *file_name, int line, const char *function, const
 	instance->errors[instance->error_count].line = line;
 	instance->errors[instance->error_count].function = function;
 	++instance->error_count;
+	va_end(info);
 }
