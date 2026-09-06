@@ -1,14 +1,15 @@
 #include "internal_simply_error.h"
 
-#include "stdio.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define RESET "\033[0m"
 #define RED "\033[31m"
 #define CYAN "\033[36m"
 
-#define TRACEBACK_HEADER RED"┌ ERRORS TRACEBACK -\n│\n"RESET
+#define TRACEBACK_HEADER RED"┌ ERRORS TRACEBACK ─\n│\n"RESET
 #define TRACEBACK_NL RED"│"RESET
-#define TRACEBACK_FOOTER RED"\n└ ERRORS TRACEBACK -\n\n"RESET
+#define TRACEBACK_FOOTER RED"\n└───────────────────\n\n"RESET
 
 void	print_error_graph(int return_value, void *data)
 {
@@ -24,13 +25,21 @@ void	print_error_graph(int return_value, void *data)
 			printf("  ");
 		printf("└─");
 		--error_count;
+		if (instance->errors[error_count].error_msg == NULL)
+		{
+			instance->errors[error_count].error_msg = "";
+			instance->errors[error_count].need_free = false;
+		}
 		printf("%s:"CYAN"%d"RESET":%s: '%s'\n",
 			instance->errors[error_count].file,
 			instance->errors[error_count].line,
 			instance->errors[error_count].function,
 			instance->errors[error_count].error_msg
 		);
+		if (instance->errors[error_count].need_free)
+			free(instance->errors[error_count].error_msg);
 	}
+	printf(TRACEBACK_NL"\n");
 	if (instance->error_count == MAX_ERROR_COUNT)
 	{
 		printf(TRACEBACK_NL);
