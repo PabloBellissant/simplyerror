@@ -20,4 +20,4 @@ typedef struct	simply_error
 }	simply_error;
 
 simply_error	*get_instance();
-void			print_error_graph(int return_value, void *data);
+void			print_error_graph();

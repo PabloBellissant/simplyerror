@@ -11,9 +11,8 @@
 #define TRACEBACK_NL RED"│"RESET
 #define TRACEBACK_FOOTER RED"\n└───────────────────\n\n"RESET
 
-void	print_error_graph(int return_value, void *data)
+void	print_error_graph(void)
 {
-	(void) data;
 	simply_error	*instance = get_instance();
 	int				error_count = instance->error_count;
 	
@@ -39,14 +38,11 @@ void	print_error_graph(int return_value, void *data)
 		if (instance->errors[error_count].need_free)
 			free(instance->errors[error_count].error_msg);
 	}
-	printf(TRACEBACK_NL"\n");
+	printf(TRACEBACK_NL);
 	if (instance->error_count == MAX_ERROR_COUNT)
 	{
-		printf(TRACEBACK_NL);
-		printf(" Too much error emitted, i'm not reporting more. Go fix your code !\n");
+		printf("\n"TRACEBACK_NL);
+		printf(" Too much error emitted, i'm not reporting more. Go fix your code !");
 	}
-	printf(TRACEBACK_NL);
-	printf(" Program returned with value "CYAN"%d"RESET"\n", return_value);
-	printf(TRACEBACK_NL);
 	printf(TRACEBACK_FOOTER);
 }

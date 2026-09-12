@@ -13,7 +13,7 @@ void	register_error(const char *file_name, int line, const char *function, const
 
 	simply_error	*instance = get_instance();
 	if (instance->error_count == 0)
-		on_exit(print_error_graph, NULL);
+		atexit(print_error_graph);
 	if (instance->error_count == MAX_ERROR_COUNT)
 		return ;
 	instance->errors[instance->error_count].need_free = true;
