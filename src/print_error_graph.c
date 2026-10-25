@@ -16,20 +16,20 @@ void	print_error_graph(void)
 	simply_error	*instance = get_instance();
 	int				error_count = instance->error_count;
 	
-	printf(TRACEBACK_HEADER);
+	dprintf(2, TRACEBACK_HEADER);
 	while (error_count > 0)
 	{
-		printf(TRACEBACK_NL);
+		dprintf(2, TRACEBACK_NL);
 		for (int i = 0; i < instance->error_count - error_count; ++i)
-			printf("  ");
-		printf("└─");
+			dprintf(2, "  ");
+		dprintf(2, "└─");
 		--error_count;
 		if (instance->errors[error_count].error_msg == NULL)
 		{
 			instance->errors[error_count].error_msg = "";
 			instance->errors[error_count].need_free = false;
 		}
-		printf("%s:"CYAN"%d"RESET":%s: '%s'\n",
+		dprintf(2, "%s:"CYAN"%d"RESET":%s: '%s'\n",
 			instance->errors[error_count].file,
 			instance->errors[error_count].line,
 			instance->errors[error_count].function,
@@ -38,11 +38,11 @@ void	print_error_graph(void)
 		if (instance->errors[error_count].need_free)
 			free(instance->errors[error_count].error_msg);
 	}
-	printf(TRACEBACK_NL);
+	dprintf(2, TRACEBACK_NL);
 	if (instance->error_count == MAX_ERROR_COUNT)
 	{
-		printf("\n"TRACEBACK_NL);
-		printf(" Too much error emitted, i'm not reporting more. Go fix your code !");
+		dprintf(2, "\n"TRACEBACK_NL);
+		dprintf(2, " Too much error emitted, i'm not reporting more. Go fix your code !");
 	}
-	printf(TRACEBACK_FOOTER);
+	dprintf(2, TRACEBACK_FOOTER);
 }
