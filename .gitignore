@@ -1,4 +1,5 @@
 .cache
 compile_commands.json
-simplyerror.a
 .obj
+example
+obj

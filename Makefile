@@ -1,28 +1,35 @@
-NAME = simplyerror.a
+NAME = example
 
-SRCDIR = src
-OBJDIR = .obj
+SRCDIR = .
+OBJDIR = obj
 INCDIR = include
 
-SRCS = get_instance.c \
-	   print_error_graph.c \
-	   register_error.c
+SRCS =	$(addprefix $(SRCDIR)/, \
+		example.c)
 
+OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
+DEPS = $(OBJS:.o=.d)
 
-OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
-
-CFLAGS = -Werror -Wextra -Wall -MD -MP -I $(INCDIR) -g3
-AR = ar -rcs
+CFLAGS = -Wall -Wextra -Werror -pedantic -I $(INCDIR) -I $(SIMPLYERRORINC) -g
+LDFLAGS = -lX11 -lXext -lm -lz
 DEPFLAGS = -MMD -MP
+MAKEFLAGS = --no-print-directory
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 
+fast: CFLAGS += -Ofast
+fast: $(NAME)
+
+ndebug: CFLAGS += -DNDEBUG=1
+ndebug: $(NAME)
+
 $(NAME): $(OBJS)
-	$(AR) $(NAME) $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+$(OBJDIR)/%.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(DEPFLAGS) -c $< -o $@
 
 clean:
 	rm -rf $(OBJDIR)
@@ -33,6 +40,6 @@ fclean: clean
 re: fclean
 	make all
 
--include $(OBJS:.o=.d)
+-include $(DEPS)
 
 .PHONY: all clean fclean re
